@@ -4,11 +4,12 @@ Una aplicación para la creación de ejercicios matemáticos con modos estudiant
 
 ## Características principales
 
-- **Modo Estudiante**: Generación de hojas de ejercicios sin soluciones.
-- **Modo Profesor**: Generación de hojas de ejercicios con y sin soluciones.
-- **Modo Editor**: Subida de archivos .tex con ejercicios para ampliar la base de datos.
+- **Modo Estudiante**: Generación de hojas de ejercicios sin soluciones (acceso público).
+- **Modo Profesor**: Generación de hojas de ejercicios con y sin soluciones (acceso público).
+- **Modo Editor**: Subida de archivos .tex con ejercicios para ampliar la base de datos (acceso restringido).
 - **Selección dinámica**: Elección de ejercicios por tema, subtema, nivel educativo y dificultad.
 - **Generación de PDFs**: Creación de documentos descargables con los ejercicios seleccionados.
+- **Control de acceso**: Protección del modo editor mediante autenticación de usuarios.
 
 ## Instrucciones de instalación
 
@@ -33,7 +34,10 @@ Una aplicación para la creación de ejercicios matemáticos con modos estudiant
    Este script se encargará de:
    - Instalar las dependencias necesarias
    - Configurar la base de datos
+   - Crear un usuario administrador inicial (si no existe)
    - Iniciar la aplicación
+   
+3. Durante la primera ejecución, el script te pedirá crear un usuario administrador para el acceso al modo editor.
 
 ### Configuración manual (alternativa)
 

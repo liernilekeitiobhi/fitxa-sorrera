@@ -239,7 +239,8 @@ def add_user():
             return redirect(url_for('add_user'))
         
         # Create new user
-        new_user = User(username=username)
+        new_user = User()
+        new_user.username = username
         new_user.set_password(password)
         
         db.session.add(new_user)
@@ -284,7 +285,7 @@ def editor():
                 subtopic_name = request.form.get('subtopic_name')
                 
                 # Secure the filename
-                filename = secure_filename(file.filename)
+                filename = secure_filename(file.filename or "")
                 
                 # Read file content
                 file_content = file.read().decode('utf-8')

@@ -22,17 +22,35 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
+                        <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('student') %}active{% endif %}" href="{{ url_for('student') }}">Student Mode</a>
+                        <a class="nav-link {% if request.path == url_for('student') %}active{% endif %}" href="{{ url_for('student') }}">Modo Estudiante</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('teacher') %}active{% endif %}" href="{{ url_for('teacher') }}">Teacher Mode</a>
+                        <a class="nav-link {% if request.path == url_for('teacher') %}active{% endif %}" href="{{ url_for('teacher') }}">Modo Profesor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('editor') %}active{% endif %}" href="{{ url_for('editor') }}">Editor Mode</a>
+                        <a class="nav-link {% if request.path == url_for('editor') %}active{% endif %}" href="{{ url_for('editor') }}">Modo Editor</a>
                     </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>{{ current_user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('add_user') }}"><i class="fas fa-user-plus me-2"></i>Añadir Usuario</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('login') %}active{% endif %}" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
