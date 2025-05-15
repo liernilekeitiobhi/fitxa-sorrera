@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0"><i class="fas fa-file-code me-2"></i>Código LaTeX</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>Aquí tienes el código LaTeX de los ejercicios seleccionados. Puedes copiarlo y pegarlo en tu editor LaTeX favorito.
+                </div>
+                
+                <!-- Tabs for With/Without Solutions -->
+                <ul class="nav nav-tabs mb-3" id="latexTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="exercises-tab" data-bs-toggle="tab" data-bs-target="#exercises" type="button" role="tab" aria-controls="exercises" aria-selected="true">
+                            <i class="fas fa-tasks me-2"></i>Ejercicios
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="solutions-tab" data-bs-toggle="tab" data-bs-target="#solutions" type="button" role="tab" aria-controls="solutions" aria-selected="false">
+                            <i class="fas fa-check-double me-2"></i>Ejercicios con Soluciones
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="both-tab" data-bs-toggle="tab" data-bs-target="#both" type="button" role="tab" aria-controls="both" aria-selected="false">
+                            <i class="fas fa-file-alt me-2"></i>Documento Completo
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="latexTabsContent">
+                    <!-- Exercises Only -->
+                    <div class="tab-pane fade show active" id="exercises" role="tabpanel" aria-labelledby="exercises-tab">
+                        <div class="mb-3">
+                            <button class="btn btn-sm btn-secondary mb-2 copy-btn" data-clipboard-target="#latex-exercises">
+                                <i class="fas fa-copy me-1"></i>Copiar al portapapeles
+                            </button>
+                            <pre class="bg-dark text-light p-3 rounded"><code id="latex-exercises">{{ latex_content.exercises }}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Solutions Only -->
+                    <div class="tab-pane fade" id="solutions" role="tabpanel" aria-labelledby="solutions-tab">
+                        <div class="mb-3">
+                            <button class="btn btn-sm btn-secondary mb-2 copy-btn" data-clipboard-target="#latex-solutions">
+                                <i class="fas fa-copy me-1"></i>Copiar al portapapeles
+                            </button>
+                            <pre class="bg-dark text-light p-3 rounded"><code id="latex-solutions">{{ latex_content.solutions }}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Complete Document -->
+                    <div class="tab-pane fade" id="both" role="tabpanel" aria-labelledby="both-tab">
+                        <div class="mb-3">
+                            <button class="btn btn-sm btn-secondary mb-2 copy-btn" data-clipboard-target="#latex-complete">
+                                <i class="fas fa-copy me-1"></i>Copiar al portapapeles
+                            </button>
+                            <pre class="bg-dark text-light p-3 rounded"><code id="latex-complete">{{ latex_content.complete }}</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                    <a href="{{ url_for('download_exercises') }}" class="btn btn-primary me-2">
+                        <i class="fas fa-download me-2"></i>Descargar Ejercicios
+                    </a>
+                    <a href="{{ url_for('download_solutions') }}" class="btn btn-info me-2">
+                        <i class="fas fa-download me-2"></i>Descargar Soluciones
+                    </a>
+                    <a href="{{ url_for('teacher') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize clipboard.js
+        var clipboard = new ClipboardJS('.copy-btn');
+        
+        clipboard.on('success', function(e) {
+            // Change button text temporarily to show success
+            const originalText = e.trigger.innerHTML;
+            e.trigger.innerHTML = '<i class="fas fa-check me-1"></i>¡Copiado!';
+            
+            setTimeout(function() {
+                e.trigger.innerHTML = originalText;
+            }, 2000);
+            
+            e.clearSelection();
+        });
+        
+        clipboard.on('error', function(e) {
+            // Change button text temporarily to show error
+            const originalText = e.trigger.innerHTML;
+            e.trigger.innerHTML = '<i class="fas fa-times me-1"></i>Error al copiar';
+            
+            setTimeout(function() {
+                e.trigger.innerHTML = originalText;
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}

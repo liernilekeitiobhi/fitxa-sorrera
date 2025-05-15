@@ -5,6 +5,7 @@ from app import app, db
 from models import Exercise, Topic, Subtopic, User, EDUCATION_LEVELS
 from tex_parser import parse_tex_file
 from pdf_generator import PdfGenerator
+from latex_generator import LatexGenerator
 from werkzeug.utils import secure_filename
 from flask_login import login_user, logout_user, login_required, current_user
 import logging
@@ -139,9 +140,23 @@ def teacher():
                 title="Mathematics Exercises with Solutions"
             )
             
+            # Generate LaTeX content
+            latex_content = LatexGenerator.generate_latex_content(
+                selected_exercises,
+                title="Ejercicios de Matemáticas"
+            )
+            
             # Store filenames in session for download links
             session['pdf_no_solutions'] = pdf_file_no_solutions
             session['pdf_with_solutions'] = pdf_file_with_solutions
+            session['selected_exercises'] = [exercise.id for exercise in selected_exercises]
+            
+            # Redirect to LaTeX output page
+            if 'show_latex' in request.form:
+                return render_template(
+                    'latex_output.html',
+                    latex_content=latex_content
+                )
             
             flash('Exercise sheets generated successfully. You can download them below.', 'success')
             
@@ -175,6 +190,30 @@ def download_solutions():
         return pdf_generator.send_pdf_file(pdf_file, 'math_exercises_with_solutions.pdf')
     flash('PDF file not available.', 'danger')
     return redirect(url_for('teacher'))
+
+
+@app.route('/latex-code')
+def latex_code():
+    """Show LaTeX code for copy-paste"""
+    # Get selected exercises from session
+    exercise_ids = session.get('selected_exercises', [])
+    if not exercise_ids:
+        flash('No exercises selected. Please generate exercise sheets first.', 'warning')
+        return redirect(url_for('teacher'))
+    
+    # Get exercises from database
+    selected_exercises = Exercise.query.filter(Exercise.id.in_(exercise_ids)).all()
+    if not selected_exercises:
+        flash('Could not retrieve selected exercises.', 'danger')
+        return redirect(url_for('teacher'))
+    
+    # Generate LaTeX content
+    latex_content = LatexGenerator.generate_latex_content(
+        selected_exercises,
+        title="Ejercicios de Matemáticas"
+    )
+    
+    return render_template('latex_output.html', latex_content=latex_content)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
