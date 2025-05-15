@@ -5,74 +5,69 @@
     <div class="col-md-10">
         <div class="card">
             <div class="card-body text-center">
-                <h1 class="card-title mb-4">Mathematics Exercise Generator</h1>
+                <h1 class="card-title mb-4">Generador de Ejercicios de Matemáticas</h1>
                 <p class="card-text">
-                    Welcome to the Mathematics Exercise Generator! This tool helps students and teachers create customized exercise sheets for mathematics practice.
+                    ¡Bienvenido al Generador de Ejercicios de Matemáticas! Esta herramienta ayuda a estudiantes y profesores a crear hojas de ejercicios personalizadas para la práctica de matemáticas.
                 </p>
                 
-                <div class="row mt-5">
-                    <div class="col-md-4">
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-md-5">
                         <div class="card h-100">
                             <div class="card-body text-center">
-                                <i class="fas fa-user-graduate fa-3x mb-3 text-primary"></i>
-                                <h3 class="card-title">Student Mode</h3>
-                                <p class="card-text">Generate exercise sheets with customized selection of topics and difficulty levels.</p>
-                                <a href="{{ url_for('student') }}" class="btn btn-primary">Go to Student Mode</a>
+                                <i class="fas fa-download fa-3x mb-3 text-success"></i>
+                                <h3 class="card-title">Modo Descarga</h3>
+                                <p class="card-text">Crea hojas de ejercicios con selección personalizada de temas y dificultad, con o sin soluciones, y en formato PDF o LaTeX.</p>
+                                <a href="{{ url_for('teacher') }}" class="btn btn-success">Ir al Modo Descarga</a>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-md-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-chalkboard-teacher fa-3x mb-3 text-success"></i>
-                                <h3 class="card-title">Teacher Mode</h3>
-                                <p class="card-text">Create exercise sheets with separate solution documents for classroom use.</p>
-                                <a href="{{ url_for('teacher') }}" class="btn btn-success">Go to Teacher Mode</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="card h-100">
                             <div class="card-body text-center">
                                 <i class="fas fa-edit fa-3x mb-3 text-info"></i>
-                                <h3 class="card-title">Editor Mode</h3>
-                                <p class="card-text">Upload .tex files with exercises to expand the database of available problems.</p>
-                                <a href="{{ url_for('editor') }}" class="btn btn-info">Go to Editor Mode</a>
+                                <h3 class="card-title">Modo Editor</h3>
+                                <p class="card-text">Sube archivos .tex con ejercicios para ampliar la base de datos de problemas disponibles. Requiere inicio de sesión.</p>
+                                <a href="{{ url_for('editor') }}" class="btn btn-info">Ir al Modo Editor</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="mt-5">
-                    <h2>How It Works</h2>
+                    <h2>Cómo Funciona</h2>
                     <div class="row mt-4">
                         <div class="col-md-4">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <h5 class="card-title"><i class="fas fa-upload me-2"></i>Upload Exercises</h5>
-                                    <p class="card-text">In Editor Mode, upload .tex files containing exercises with their difficulty levels and solutions.</p>
+                                    <h5 class="card-title"><i class="fas fa-upload me-2"></i>Subir Ejercicios</h5>
+                                    <p class="card-text">En el Modo Editor, sube archivos .tex que contengan ejercicios con sus niveles de dificultad y soluciones.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <h5 class="card-title"><i class="fas fa-filter me-2"></i>Select Criteria</h5>
-                                    <p class="card-text">Choose education level, topics, subtopics, and difficulty levels for your exercise sheet.</p>
+                                    <h5 class="card-title"><i class="fas fa-filter me-2"></i>Seleccionar Criterios</h5>
+                                    <p class="card-text">Elige nivel educativo, temas, subtemas y niveles de dificultad para tu hoja de ejercicios.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <h5 class="card-title"><i class="fas fa-file-pdf me-2"></i>Download PDF</h5>
-                                    <p class="card-text">Get your customized exercise sheet as a printable PDF file, with or without solutions.</p>
+                                    <h5 class="card-title"><i class="fas fa-file-code me-2"></i>Obtener Ejercicios</h5>
+                                    <p class="card-text">Descarga tus ejercicios como PDF o copia el código LaTeX para usarlo directamente en tus documentos.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{{ url_for('guide') }}" class="btn btn-outline-info">
+                        <i class="fas fa-book me-2"></i>Consultar la Guía de Contenidos
+                    </a>
                 </div>
             </div>
         </div>

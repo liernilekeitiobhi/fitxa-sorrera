@@ -27,6 +27,12 @@ def index():
     """Home page route"""
     return render_template('index.html')
 
+
+@app.route('/guide')
+def guide():
+    """Guide page route"""
+    return render_template('guide.html')
+
 @app.route('/student', methods=['GET', 'POST'])
 def student():
     """

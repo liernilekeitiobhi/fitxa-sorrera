@@ -25,13 +25,13 @@
                         <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('student') %}active{% endif %}" href="{{ url_for('student') }}">Modo Estudiante</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('teacher') %}active{% endif %}" href="{{ url_for('teacher') }}">Modo Profesor</a>
+                        <a class="nav-link {% if request.path == url_for('teacher') %}active{% endif %}" href="{{ url_for('teacher') }}">Modo Descarga</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == url_for('editor') %}active{% endif %}" href="{{ url_for('editor') }}">Modo Editor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == url_for('guide') %}active{% endif %}" href="{{ url_for('guide') }}">Guía</a>
                     </li>
                     {% if current_user.is_authenticated %}
                         <li class="nav-item dropdown">

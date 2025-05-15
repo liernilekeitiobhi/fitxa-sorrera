@@ -5,25 +5,25 @@
     <div class="col-md-10">
         <div class="card">
             <div class="card-header bg-success text-white">
-                <h2 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i>Teacher Mode</h2>
+                <h2 class="mb-0"><i class="fas fa-download me-2"></i>Modo Descarga</h2>
             </div>
             <div class="card-body">
                 <p class="card-text">
-                    Create customized exercise sheets for your students. The system will generate two PDFs: one with only exercises and another with exercises and solutions.
+                    Crea hojas de ejercicios personalizadas. El sistema generará archivos PDF con o sin soluciones, y también podrás copiar el código LaTeX para usar directamente en tus propios documentos.
                 </p>
                 
                 {% if pdf_generated %}
                 <div class="alert alert-success mb-4">
-                    <h5><i class="fas fa-check-circle me-2"></i>Exercise Sheets Generated</h5>
+                    <h5><i class="fas fa-check-circle me-2"></i>Hojas de Ejercicios Generadas</h5>
                     <div class="mt-3">
                         <a href="{{ url_for('download_exercises') }}" class="btn btn-primary me-2">
-                            <i class="fas fa-download me-2"></i>Download Exercises
+                            <i class="fas fa-download me-2"></i>Descargar Ejercicios
                         </a>
                         <a href="{{ url_for('download_solutions') }}" class="btn btn-info me-2">
-                            <i class="fas fa-download me-2"></i>Download Exercises with Solutions
+                            <i class="fas fa-download me-2"></i>Descargar Ejercicios con Soluciones
                         </a>
                         <a href="{{ url_for('latex_code') }}" class="btn btn-secondary">
-                            <i class="fas fa-file-code me-2"></i>View LaTeX Code
+                            <i class="fas fa-file-code me-2"></i>Ver Código LaTeX
                         </a>
                     </div>
                 </div>

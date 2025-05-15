@@ -1,0 +1,400 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h2 class="mb-0"><i class="fas fa-book me-2"></i>Guía de Uso</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>Esta guía te ayudará a entender cómo organizar y estructurar los ejercicios matemáticos en cada nivel educativo.
+                </div>
+                
+                <!-- Accordion for Guidelines -->
+                <div class="accordion" id="guideAccordion">
+                    
+                    <!-- Structure Section -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingStructure">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStructure" aria-expanded="true" aria-controls="collapseStructure">
+                                <i class="fas fa-sitemap me-2"></i>Estructura General
+                            </button>
+                        </h2>
+                        <div id="collapseStructure" class="accordion-collapse collapse show" aria-labelledby="headingStructure" data-bs-parent="#guideAccordion">
+                            <div class="accordion-body">
+                                <p>Los ejercicios en el sistema se organizan en la siguiente jerarquía:</p>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <ol class="list-group list-group-numbered">
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Nivel Educativo</div>
+                                                    (1ESO, 2ESO, etc.) - Define el grado educativo al que pertenece el ejercicio.
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Tema</div>
+                                                    (Álgebra, Geometría, etc.) - Categoría principal de matemáticas.
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Subtema</div>
+                                                    (Ecuaciones Cuadráticas, Teorema de Pitágoras, etc.) - Categoría específica dentro del tema.
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Dificultad</div>
+                                                    (1-3) - Nivel de complejidad del ejercicio.
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- File Format Section -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFileFormat">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFileFormat" aria-expanded="false" aria-controls="collapseFileFormat">
+                                <i class="fas fa-file-code me-2"></i>Formato de Archivos
+                            </button>
+                        </h2>
+                        <div id="collapseFileFormat" class="accordion-collapse collapse" aria-labelledby="headingFileFormat" data-bs-parent="#guideAccordion">
+                            <div class="accordion-body">
+                                <p>Los ejercicios deben subirse en formato .tex con la siguiente estructura:</p>
+                                <pre class="bg-dark text-light p-3 rounded"><code>% BEGIN_EXERCISE
+% DIFFICULTY: 2
+Este es el enunciado del ejercicio en formato LaTeX.
+% BEGIN_SOLUTION
+Esta es la solución del ejercicio en formato LaTeX.
+% END_SOLUTION
+% END_EXERCISE</code></pre>
+                                
+                                <p class="mt-3">Notas importantes:</p>
+                                <ul class="list-group mb-3">
+                                    <li class="list-group-item">Los marcadores (BEGIN_EXERCISE, etc.) deben estar en líneas separadas</li>
+                                    <li class="list-group-item">La dificultad debe ser un número del 1 al 3</li>
+                                    <li class="list-group-item">El contenido debe estar en formato LaTeX válido</li>
+                                    <li class="list-group-item">Puedes incluir múltiples ejercicios en un mismo archivo</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Education Levels Section -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingLevels">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLevels" aria-expanded="false" aria-controls="collapseLevels">
+                                <i class="fas fa-graduation-cap me-2"></i>Niveles Educativos
+                            </button>
+                        </h2>
+                        <div id="collapseLevels" class="accordion-collapse collapse" aria-labelledby="headingLevels" data-bs-parent="#guideAccordion">
+                            <div class="accordion-body">
+                                <div class="card mb-3">
+                                    <div class="card-header bg-secondary text-white">
+                                        <h5 class="mb-0">Educación Secundaria Obligatoria (ESO)</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nivel</th>
+                                                        <th>Edad</th>
+                                                        <th>Temas Principales</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>1ESO</strong></td>
+                                                        <td>12-13 años</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>Aritmética básica</li>
+                                                                <li>Fracciones y decimales</li>
+                                                                <li>Geometría básica</li>
+                                                                <li>Estadística elemental</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>2ESO</strong></td>
+                                                        <td>13-14 años</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>Números enteros y racionales</li>
+                                                                <li>Álgebra básica</li>
+                                                                <li>Proporcionalidad</li>
+                                                                <li>Geometría plana</li>
+                                                                <li>Funciones lineales</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>3ESO</strong></td>
+                                                        <td>14-15 años</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>Números reales</li>
+                                                                <li>Polinomios</li>
+                                                                <li>Ecuaciones de primer y segundo grado</li>
+                                                                <li>Funciones cuadráticas</li>
+                                                                <li>Geometría del espacio</li>
+                                                                <li>Estadística y probabilidad</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>4ESO</strong></td>
+                                                        <td>15-16 años</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>Números complejos</li>
+                                                                <li>Sistemas de ecuaciones</li>
+                                                                <li>Trigonometría básica</li>
+                                                                <li>Funciones exponenciales y logarítmicas</li>
+                                                                <li>Estadística inferencial</li>
+                                                                <li>Combinatoria</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-3">
+                                    <div class="card-header bg-secondary text-white">
+                                        <h5 class="mb-0">Bachillerato</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nivel</th>
+                                                        <th>Edad</th>
+                                                        <th>Temas Principales</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>1BACH</strong></td>
+                                                        <td>16-17 años</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>Números reales y complejos</li>
+                                                                <li>Álgebra avanzada</li>
+                                                                <li>Trigonometría</li>
+                                                                <li>Geometría analítica</li>
+                                                                <li>Límites y continuidad</li>
+                                                                <li>Derivadas</li>
+                                                                <li>Estadística bidimensional</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>2BACH</strong></td>
+                                                        <td>17-18 años</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>Matrices y determinantes</li>
+                                                                <li>Integrales</li>
+                                                                <li>Ecuaciones diferenciales</li>
+                                                                <li>Probabilidad</li>
+                                                                <li>Distribuciones de probabilidad</li>
+                                                                <li>Inferencia estadística</li>
+                                                                <li>Programación lineal</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Topics and Subtopics Section -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTopics">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopics" aria-expanded="false" aria-controls="collapseTopics">
+                                <i class="fas fa-list me-2"></i>Temas y Subtemas
+                            </button>
+                        </h2>
+                        <div id="collapseTopics" class="accordion-collapse collapse" aria-labelledby="headingTopics" data-bs-parent="#guideAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Álgebra</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">Ecuaciones de Primer Grado</li>
+                                                    <li class="list-group-item">Ecuaciones de Segundo Grado</li>
+                                                    <li class="list-group-item">Sistemas de Ecuaciones</li>
+                                                    <li class="list-group-item">Polinomios</li>
+                                                    <li class="list-group-item">Factorización</li>
+                                                    <li class="list-group-item">Matrices y Determinantes</li>
+                                                    <li class="list-group-item">Resolución de Problemas</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Geometría</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">Teorema de Pitágoras</li>
+                                                    <li class="list-group-item">Trigonometría</li>
+                                                    <li class="list-group-item">Geometría Analítica</li>
+                                                    <li class="list-group-item">Figuras Planas</li>
+                                                    <li class="list-group-item">Cuerpos Geométricos</li>
+                                                    <li class="list-group-item">Transformaciones Geométricas</li>
+                                                    <li class="list-group-item">Coordenadas en el Espacio</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Cálculo</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">Límites</li>
+                                                    <li class="list-group-item">Continuidad</li>
+                                                    <li class="list-group-item">Derivadas</li>
+                                                    <li class="list-group-item">Aplicaciones de las Derivadas</li>
+                                                    <li class="list-group-item">Integrales</li>
+                                                    <li class="list-group-item">Aplicaciones de las Integrales</li>
+                                                    <li class="list-group-item">Ecuaciones Diferenciales</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Estadística y Probabilidad</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">Estadística Descriptiva</li>
+                                                    <li class="list-group-item">Probabilidad Básica</li>
+                                                    <li class="list-group-item">Combinatoria</li>
+                                                    <li class="list-group-item">Distribuciones de Probabilidad</li>
+                                                    <li class="list-group-item">Inferencia Estadística</li>
+                                                    <li class="list-group-item">Correlación y Regresión</li>
+                                                    <li class="list-group-item">Estadística Bidimensional</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Difficulty Levels Section -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingDifficulty">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDifficulty" aria-expanded="false" aria-controls="collapseDifficulty">
+                                <i class="fas fa-signal me-2"></i>Niveles de Dificultad
+                            </button>
+                        </h2>
+                        <div id="collapseDifficulty" class="accordion-collapse collapse" aria-labelledby="headingDifficulty" data-bs-parent="#guideAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-success h-100">
+                                            <div class="card-header bg-success text-white">
+                                                <h5 class="mb-0">Nivel 1 - Fácil</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Ejercicios básicos que implican:</p>
+                                                <ul>
+                                                    <li>Aplicación directa de fórmulas</li>
+                                                    <li>Un solo paso o concepto</li>
+                                                    <li>Cálculo sencillo</li>
+                                                    <li>Ideal para práctica inicial</li>
+                                                    <li>Refuerzo de conceptos fundamentales</li>
+                                                </ul>
+                                                <p><strong>Ejemplo:</strong> Resolver la ecuación \(2x + 3 = 7\)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-warning h-100">
+                                            <div class="card-header bg-warning text-dark">
+                                                <h5 class="mb-0">Nivel 2 - Intermedio</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Ejercicios que requieren:</p>
+                                                <ul>
+                                                    <li>Combinación de varios conceptos</li>
+                                                    <li>Múltiples pasos de resolución</li>
+                                                    <li>Cierto nivel de análisis</li>
+                                                    <li>Manipulación algebraica más compleja</li>
+                                                    <li>Conocimiento sólido del tema</li>
+                                                </ul>
+                                                <p><strong>Ejemplo:</strong> Resolver el sistema \(\begin{cases} 2x + y = 5 \\ 3x - 2y = 4 \end{cases}\)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-danger h-100">
+                                            <div class="card-header bg-danger text-white">
+                                                <h5 class="mb-0">Nivel 3 - Avanzado</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Ejercicios desafiantes que incluyen:</p>
+                                                <ul>
+                                                    <li>Problemas complejos y abiertos</li>
+                                                    <li>Aplicación creativa de conceptos</li>
+                                                    <li>Razonamiento abstracto</li>
+                                                    <li>Integración de múltiples áreas</li>
+                                                    <li>Similar a problemas de olimpiadas</li>
+                                                </ul>
+                                                <p><strong>Ejemplo:</strong> Determinar todos los valores de \(k\) para los cuales la ecuación \(x^2 + kx + 4 = 0\) tiene al menos una solución en el intervalo \([0,2]\)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
