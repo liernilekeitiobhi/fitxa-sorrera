@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body text-center">
+                <h1 class="card-title mb-4">Mathematics Exercise Generator</h1>
+                <p class="card-text">
+                    Welcome to the Mathematics Exercise Generator! This tool helps students and teachers create customized exercise sheets for mathematics practice.
+                </p>
+                
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-user-graduate fa-3x mb-3 text-primary"></i>
+                                <h3 class="card-title">Student Mode</h3>
+                                <p class="card-text">Generate exercise sheets with customized selection of topics and difficulty levels.</p>
+                                <a href="{{ url_for('student') }}" class="btn btn-primary">Go to Student Mode</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chalkboard-teacher fa-3x mb-3 text-success"></i>
+                                <h3 class="card-title">Teacher Mode</h3>
+                                <p class="card-text">Create exercise sheets with separate solution documents for classroom use.</p>
+                                <a href="{{ url_for('teacher') }}" class="btn btn-success">Go to Teacher Mode</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-edit fa-3x mb-3 text-info"></i>
+                                <h3 class="card-title">Editor Mode</h3>
+                                <p class="card-text">Upload .tex files with exercises to expand the database of available problems.</p>
+                                <a href="{{ url_for('editor') }}" class="btn btn-info">Go to Editor Mode</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-5">
+                    <h2>How It Works</h2>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-upload me-2"></i>Upload Exercises</h5>
+                                    <p class="card-text">In Editor Mode, upload .tex files containing exercises with their difficulty levels and solutions.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-filter me-2"></i>Select Criteria</h5>
+                                    <p class="card-text">Choose education level, topics, subtopics, and difficulty levels for your exercise sheet.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-file-pdf me-2"></i>Download PDF</h5>
+                                    <p class="card-text">Get your customized exercise sheet as a printable PDF file, with or without solutions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

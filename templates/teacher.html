@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i>Teacher Mode</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Create customized exercise sheets for your students. The system will generate two PDFs: one with only exercises and another with exercises and solutions.
+                </p>
+                
+                {% if pdf_generated %}
+                <div class="alert alert-success mb-4">
+                    <h5><i class="fas fa-check-circle me-2"></i>Exercise Sheets Generated</h5>
+                    <div class="mt-3">
+                        <a href="{{ url_for('download_exercises') }}" class="btn btn-primary me-2">
+                            <i class="fas fa-download me-2"></i>Download Exercises
+                        </a>
+                        <a href="{{ url_for('download_solutions') }}" class="btn btn-info">
+                            <i class="fas fa-download me-2"></i>Download Exercises with Solutions
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <form id="exerciseForm" method="post" action="{{ url_for('teacher') }}">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div id="exerciseSelections" class="border rounded p-3">
+                                <h5>Exercise Selections</h5>
+                                <p class="text-muted">Add the exercises you want to include in your sheet</p>
+                                
+                                <div id="selectedExercises">
+                                    <!-- Selected exercises will be added here dynamically -->
+                                </div>
+                                
+                                <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#addExerciseModal">
+                                    <i class="fas fa-plus me-2"></i>Add Exercise
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-success" id="generateButton" disabled>
+                            <i class="fas fa-file-pdf me-2"></i>Generate Exercise Sheets
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Exercise Modal -->
+<div class="modal fade" id="addExerciseModal" tabindex="-1" aria-labelledby="addExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExerciseModalLabel">Add Exercise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="education_level" class="form-label">Education Level</label>
+                    <select class="form-select" id="education_level">
+                        <option value="">Select Education Level</option>
+                        {% for level in education_levels %}
+                        <option value="{{ level }}">{{ level }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="topic" class="form-label">Topic</label>
+                    <select class="form-select" id="topic">
+                        <option value="">Select Topic</option>
+                        {% for topic in topics %}
+                        <option value="{{ topic.id }}">{{ topic.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="subtopic" class="form-label">Subtopic</label>
+                    <select class="form-select" id="subtopic" disabled>
+                        <option value="">Select Subtopic</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="difficulty" class="form-label">Difficulty Level</label>
+                    <select class="form-select" id="difficulty">
+                        <option value="">Select Difficulty</option>
+                        <option value="1">1 - Easy</option>
+                        <option value="2">2 - Medium</option>
+                        <option value="3">3 - Hard</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="count" class="form-label">Number of Exercises</label>
+                    <input type="number" class="form-control" id="count" min="1" max="10" value="1">
+                    <div class="form-text" id="availableCount">Available exercises: 0</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addExerciseBtn" disabled>Add to Sheet</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const topicSelect = document.getElementById('topic');
+        const subtopicSelect = document.getElementById('subtopic');
+        const difficultySelect = document.getElementById('difficulty');
+        const educationLevelSelect = document.getElementById('education_level');
+        const countInput = document.getElementById('count');
+        const addExerciseBtn = document.getElementById('addExerciseBtn');
+        const availableCountDiv = document.getElementById('availableCount');
+        const generateButton = document.getElementById('generateButton');
+        const selectedExercisesDiv = document.getElementById('selectedExercises');
+        
+        let exerciseCounter = 0;
+        
+        // Enable/disable the generate button based on selections
+        function updateGenerateButton() {
+            generateButton.disabled = exerciseCounter === 0;
+        }
+        
+        // Update subtopics when topic changes
+        topicSelect.addEventListener('change', function() {
+            const topicId = this.value;
+            subtopicSelect.innerHTML = '<option value="">Select Subtopic</option>';
+            subtopicSelect.disabled = !topicId;
+            
+            if (topicId) {
+                fetch(`/api/subtopics/${topicId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(subtopic => {
+                            const option = document.createElement('option');
+                            option.value = subtopic.id;
+                            option.textContent = subtopic.name;
+                            subtopicSelect.appendChild(option);
+                        });
+                    });
+            }
+            
+            checkFormValidity();
+        });
+        
+        // Check form validity and update available exercises count
+        function checkFormValidity() {
+            const subtopicId = subtopicSelect.value;
+            const educationLevel = educationLevelSelect.value;
+            const difficulty = difficultySelect.value;
+            
+            if (subtopicId && educationLevel && difficulty) {
+                // Get available exercise count
+                fetch(`/api/available-exercises?subtopic_id=${subtopicId}&education_level=${educationLevel}&difficulty=${difficulty}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const availableCount = data.count;
+                        availableCountDiv.textContent = `Available exercises: ${availableCount}`;
+                        
+                        // Enable/disable add button based on available exercises
+                        addExerciseBtn.disabled = availableCount === 0;
+                        
+                        // Set max count to available exercises
+                        countInput.max = availableCount;
+                        if (parseInt(countInput.value) > availableCount) {
+                            countInput.value = availableCount;
+                        }
+                    });
+            } else {
+                addExerciseBtn.disabled = true;
+                availableCountDiv.textContent = 'Available exercises: 0';
+            }
+        }
+        
+        // Add event listeners for form fields
+        [subtopicSelect, educationLevelSelect, difficultySelect].forEach(select => {
+            select.addEventListener('change', checkFormValidity);
+        });
+        
+        // Add exercise to selection
+        addExerciseBtn.addEventListener('click', function() {
+            const subtopicId = subtopicSelect.value;
+            const subtopicText = subtopicSelect.options[subtopicSelect.selectedIndex].text;
+            const educationLevel = educationLevelSelect.value;
+            const difficulty = difficultySelect.value;
+            const difficultyText = difficultySelect.options[difficultySelect.selectedIndex].text;
+            const count = countInput.value;
+            
+            exerciseCounter++;
+            
+            // Create selection key
+            const selectionKey = `${subtopicId}-${educationLevel}-${difficulty}`;
+            
+            // Create exercise element
+            const exerciseElement = document.createElement('div');
+            exerciseElement.className = 'card mb-2';
+            exerciseElement.id = `exercise-${exerciseCounter}`;
+            exerciseElement.innerHTML = `
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-9">
+                            <h6 class="card-title mb-1">${subtopicText}</h6>
+                            <p class="card-text mb-0">
+                                <small class="text-muted">
+                                    Level: ${educationLevel} | Difficulty: ${difficultyText} | Count: ${count}
+                                </small>
+                            </p>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <button type="button" class="btn btn-sm btn-danger remove-exercise" data-id="${exerciseCounter}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="selection" value="${selectionKey}">
+                <input type="hidden" name="count-${selectionKey}" value="${count}">
+            `;
+            
+            selectedExercisesDiv.appendChild(exerciseElement);
+            
+            // Add remove event listener
+            exerciseElement.querySelector('.remove-exercise').addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                document.getElementById(`exercise-${id}`).remove();
+                exerciseCounter--;
+                updateGenerateButton();
+            });
+            
+            // Update generate button status
+            updateGenerateButton();
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addExerciseModal'));
+            modal.hide();
+            
+            // Reset modal fields
+            educationLevelSelect.value = '';
+            topicSelect.value = '';
+            subtopicSelect.innerHTML = '<option value="">Select Subtopic</option>';
+            subtopicSelect.disabled = true;
+            difficultySelect.value = '';
+            countInput.value = 1;
+            availableCountDiv.textContent = 'Available exercises: 0';
+            addExerciseBtn.disabled = true;
+        });
+    });
+</script>
+{% endblock %}

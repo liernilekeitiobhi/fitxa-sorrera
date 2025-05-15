@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h2 class="mb-0"><i class="fas fa-edit me-2"></i>Editor Mode</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Upload .tex files with mathematics exercises. Each exercise in the file should follow the format below:
+                </p>
+                
+                <div class="border rounded p-3 mb-4 bg-dark">
+                    <pre><code>% BEGIN_EXERCISE
+% DIFFICULTY: 2
+This is the exercise content in LaTeX format.
+% BEGIN_SOLUTION
+This is the solution in LaTeX format.
+% END_SOLUTION
+% END_EXERCISE</code></pre>
+                </div>
+                
+                <form method="post" action="{{ url_for('editor') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="tex_file" class="form-label">Upload .tex File</label>
+                        <input class="form-control" type="file" id="tex_file" name="tex_file" accept=".tex" required>
+                        <div class="form-text">Only .tex files are accepted. Max file size: 16MB</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="education_level" class="form-label">Education Level</label>
+                            <select class="form-select" id="education_level" name="education_level" required>
+                                <option value="">Select Education Level</option>
+                                {% for level in education_levels %}
+                                <option value="{{ level }}">{{ level }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="topic_name" class="form-label">Topic</label>
+                            <input type="text" class="form-control" id="topic_name" name="topic_name" list="topic_list" required>
+                            <datalist id="topic_list">
+                                {% for topic in topics %}
+                                <option value="{{ topic.name }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="subtopic_name" class="form-label">Subtopic</label>
+                            <input type="text" class="form-control" id="subtopic_name" name="subtopic_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="border rounded p-3 mb-4">
+                        <h5>Tips for Preparing .tex Files</h5>
+                        <ul>
+                            <li>Each exercise must be enclosed between <code>% BEGIN_EXERCISE</code> and <code>% END_EXERCISE</code> tags.</li>
+                            <li>Each exercise must include a difficulty level (1, 2, or 3) with the tag <code>% DIFFICULTY: n</code>.</li>
+                            <li>Solutions must be enclosed between <code>% BEGIN_SOLUTION</code> and <code>% END_SOLUTION</code> tags.</li>
+                            <li>Make sure your LaTeX syntax is correct.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-info">
+                            <i class="fas fa-upload me-2"></i>Upload and Process
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any editor-specific JavaScript here
+        
+        // Display selected filename
+        document.getElementById('tex_file').addEventListener('change', function(e) {
+            const fileName = e.target.files[0].name;
+            const fileLabel = document.querySelector('label[for="tex_file"]');
+            fileLabel.textContent = `Selected file: ${fileName}`;
+        });
+        
+        // Suggest subtopics based on topic (for existing topics in database)
+        const topicInput = document.getElementById('topic_name');
+        const subtopicInput = document.getElementById('subtopic_name');
+        
+        topicInput.addEventListener('change', function() {
+            const topicName = this.value;
+            
+            // Find the topic in the datalist
+            const topics = Array.from(document.getElementById('topic_list').options).map(opt => opt.value);
+            if (topics.includes(topicName)) {
+                // Get topic ID by name
+                const topicOption = document.querySelector(`option[value="${topicName}"]`);
+                if (topicOption) {
+                    // For simplicity, we're not implementing an additional API call here
+                    // In a full implementation, you would fetch subtopics for the selected topic
+                    // and populate a datalist for the subtopic input
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
