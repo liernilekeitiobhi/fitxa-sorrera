@@ -12,6 +12,14 @@ def install_requirements():
 def setup_database():
     """Setup the database"""
     print("Configurando la base de datos...")
+    
+    # Set database URL if not already set
+    if not os.environ.get("DATABASE_URL"):
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance', 'app.db')
+        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        os.environ["DATABASE_URL"] = f"sqlite:///{db_path}"
+        print(f"Usando base de datos SQLite en: {db_path}")
+    
     # Import app only after requirements are installed
     from app import app, db
     
@@ -72,6 +80,11 @@ def create_admin_user():
 def run_application():
     """Run the Flask application"""
     print("Iniciando la aplicación...")
+    
+    # Set secret key if not already set
+    if not os.environ.get("SESSION_SECRET"):
+        os.environ["SESSION_SECRET"] = "desarrollo_clave_secreta_temporal"
+        print("Aviso: Usando clave secreta temporal para desarrollo. Considera establecer SESSION_SECRET para producción.")
     
     if platform.system() == 'Windows':
         # For Windows systems
