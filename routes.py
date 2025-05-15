@@ -2,10 +2,11 @@ import os
 import random
 from flask import render_template, request, redirect, url_for, flash, session, jsonify, make_response
 from app import app, db
-from models import Exercise, Topic, Subtopic, EDUCATION_LEVELS
+from models import Exercise, Topic, Subtopic, User, EDUCATION_LEVELS
 from tex_parser import parse_tex_file
 from pdf_generator import PdfGenerator
 from werkzeug.utils import secure_filename
+from flask_login import login_user, logout_user, login_required, current_user
 import logging
 
 # Configure logging
@@ -175,10 +176,86 @@ def download_solutions():
     flash('PDF file not available.', 'danger')
     return redirect(url_for('teacher'))
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login route for editor mode access"""
+    if current_user.is_authenticated:
+        return redirect(url_for('editor'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember = 'remember' in request.form
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user and user.check_password(password):
+            login_user(user, remember=remember)
+            flash(f'¡Bienvenido, {username}!', 'success')
+            
+            # Redirect to the page the user was trying to access
+            next_page = request.args.get('next')
+            if next_page and next_page.startswith('/'):
+                return redirect(next_page)
+            return redirect(url_for('editor'))
+        else:
+            flash('Usuario o contraseña incorrectos.', 'danger')
+    
+    return render_template('login.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    """Logout route"""
+    logout_user()
+    flash('Has cerrado sesión correctamente.', 'success')
+    return redirect(url_for('index'))
+
+
+@app.route('/add-user', methods=['GET', 'POST'])
+@login_required
+def add_user():
+    """Add a new editor user (restricted to authenticated users)"""
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        admin_password = request.form.get('admin_password')
+        
+        # Verify current user's password
+        if not current_user.check_password(admin_password):
+            flash('Tu contraseña es incorrecta.', 'danger')
+            return redirect(url_for('add_user'))
+        
+        # Verify passwords match
+        if password != confirm_password:
+            flash('Las contraseñas no coinciden.', 'danger')
+            return redirect(url_for('add_user'))
+        
+        # Check if username already exists
+        if User.query.filter_by(username=username).first():
+            flash('Este nombre de usuario ya está en uso.', 'danger')
+            return redirect(url_for('add_user'))
+        
+        # Create new user
+        new_user = User(username=username)
+        new_user.set_password(password)
+        
+        db.session.add(new_user)
+        db.session.commit()
+        
+        flash(f'Usuario {username} creado correctamente.', 'success')
+        return redirect(url_for('editor'))
+    
+    return render_template('add_user.html')
+
+
 @app.route('/editor', methods=['GET', 'POST'])
+@login_required
 def editor():
     """
-    Editor mode route:
+    Editor mode route (restricted to authenticated users):
     - GET: Show the .tex file upload form
     - POST: Process uploaded .tex file
     """
