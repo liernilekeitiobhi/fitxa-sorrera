@@ -7,7 +7,7 @@ import getpass
 def install_requirements():
     """Install required packages from requerimientos.txt"""
     print("Instalando paquetes requeridos...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requerimientos.txt"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
 
 def setup_database():
     """Setup the database"""

@@ -4,11 +4,10 @@ Una aplicación para la creación de ejercicios matemáticos con modos estudiant
 
 ## Características principales
 
-- **Modo Estudiante**: Generación de hojas de ejercicios sin soluciones (acceso público).
-- **Modo Profesor**: Generación de hojas de ejercicios con y sin soluciones (acceso público).
+- **Modo Descarga**: Generación de hojas de ejercicios con o sin soluciones (acceso público).
 - **Modo Editor**: Subida de archivos .tex con ejercicios para ampliar la base de datos (acceso restringido).
 - **Selección dinámica**: Elección de ejercicios por tema, subtema, nivel educativo y dificultad.
-- **Generación de PDFs**: Creación de documentos descargables con los ejercicios seleccionados.
+- **Generación de PDFs y .tex**: Creación de documentos descargables con los ejercicios seleccionados.
 - **Control de acceso**: Protección del modo editor mediante autenticación de usuarios.
 
 ## Instrucciones de instalación
